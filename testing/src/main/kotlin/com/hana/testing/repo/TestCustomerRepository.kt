@@ -3,7 +3,6 @@ package com.hana.testing.repo
 import com.hana.domain.model.Customer
 import com.hana.domain.repo.CustomerRepository
 import com.hana.domain.util.RepoResult
-import com.hana.testing.data.customersTestData
 
 class TestCustomerRepository: CustomerRepository {
     var customers: List<Customer> = emptyList()

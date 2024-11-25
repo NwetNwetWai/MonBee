@@ -33,11 +33,23 @@ android {
 }
 
 dependencies {
+    implementation(project(":domain"))
+
+    implementation(libs.room.ktx)
+    implementation(libs.room.runtime)
+    implementation(libs.room.complier)
+    implementation(libs.room.testing)
+
+    api(libs.kotlinx.coroutines.test)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
+
     testImplementation(libs.junit)
+    testImplementation (libs.mockk)
+    testImplementation(project(":testing"))
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+
 }

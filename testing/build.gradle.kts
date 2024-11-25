@@ -39,6 +39,8 @@ dependencies {
     implementation(libs.material)
     implementation(project(":domain"))
     testImplementation(libs.junit)
+    api(libs.kotlinx.coroutines.test)
+    implementation(libs.androidx.test.rules)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
 }

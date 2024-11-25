@@ -4,6 +4,7 @@ import com.hana.domain.model.Customer
 import com.hana.domain.repo.CustomerRepository
 import com.hana.domain.repo.UserRepository
 import com.hana.domain.util.RepoResult
+import kotlinx.coroutines.flow.Flow
 
 class GetCustomerListUseCase (private val customerRepository: CustomerRepository) {
 
