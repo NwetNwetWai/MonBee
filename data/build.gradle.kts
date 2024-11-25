@@ -1,6 +1,11 @@
+import androidx.room.gradle.RoomExtension
+import com.google.devtools.ksp.gradle.KspExtension
+
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.ksp)
+    alias(libs.plugins.room)
 }
 
 android {
@@ -24,11 +29,14 @@ android {
         }
     }
     compileOptions {
-        sourceCompatibility = JavaVersion.VERSION_11
-        targetCompatibility = JavaVersion.VERSION_11
+        sourceCompatibility = JavaVersion.VERSION_17
+        targetCompatibility = JavaVersion.VERSION_17
     }
     kotlinOptions {
-        jvmTarget = "11"
+        jvmTarget = "17"
+    }
+    room {
+        schemaDirectory("$projectDir/schemas")
     }
 }
 
@@ -37,19 +45,34 @@ dependencies {
 
     implementation(libs.room.ktx)
     implementation(libs.room.runtime)
-    implementation(libs.room.complier)
+    ksp(libs.room.complier)
     implementation(libs.room.testing)
 
-    api(libs.kotlinx.coroutines.test)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
+    implementation(libs.androidx.room.gradle.plugin)
 
     testImplementation(libs.junit)
-    testImplementation (libs.mockk)
+//    testImplementation (libs.mockk)
     testImplementation(project(":testing"))
-    androidTestImplementation(libs.androidx.junit)
+//    androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
+    androidTestImplementation(libs.androidx.test.core)
+    androidTestImplementation(libs.androidx.test.runner)
+    androidTestImplementation(libs.kotlinx.coroutines.test)
+    androidTestImplementation(libs.room.testing)
+    androidTestImplementation(libs.androidx.junit)
 
+//    implementation("dependency-causing-conflict") {
+//        exclude(group = "com.intellij", module = "annotations")
+//    }
+}
+configurations.all {
+    resolutionStrategy.eachDependency {
+        if (requested.group == "com.intellij" && requested.name == "annotations") {
+            useTarget("org.jetbrains:annotations:23.0.0")
+        }
+    }
 }

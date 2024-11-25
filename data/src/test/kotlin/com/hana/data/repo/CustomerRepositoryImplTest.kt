@@ -1,6 +1,7 @@
-package com.hana.data
+package com.hana.data.repo
 
 import com.hana.data.database.dao.CustomerDao
+import com.hana.data.database.entity.CustomerEntity
 import com.hana.data.database.toEntity
 import com.hana.data.network.ApiService
 import com.hana.data.repository.CustomerRepositoryImpl
@@ -26,6 +27,7 @@ class CustomerRepositoryImplTest {
     private lateinit var repository: CustomerRepositoryImpl
     private val mockApiService = mockk<ApiService>()
     private val mockDao = mockk<CustomerDao>()
+    private lateinit var customerTestEntity: List<CustomerEntity>
 
     @Before
     fun setUp() {
@@ -35,26 +37,31 @@ class CustomerRepositoryImplTest {
     @Test
     fun `fetch data from API and save to database`() = runTest {
         val apiData = customersTestData
-        val dbData = customersTestData
+        customerTestEntity.apply {
+            customersTestData.forEach { it.toEntity(it.address.id, it.company.id) }
+        }
+        println(customerTestEntity)
 
-        coEvery { mockApiService.fetchCustomerData() } returns apiData
-        coEvery { mockDao.insertCustomer(any()) } just Runs
+        val dbData = customerTestEntity
 
-        repository.syncData()
+            coEvery { mockApiService.fetchCustomerData() } returns apiData
+            coEvery { mockDao.insertCustomer(any()) } just Runs
 
-        coVerify { mockApiService.fetchCustomerData() }
-        coVerify { dbData.forEach { mockDao.insertCustomer(it.toEntity(it.address.id, it.company.id)) }
-             }
+            repository.syncData()
+
+            coVerify { mockApiService.fetchCustomerData() }
+            coVerify { mockDao.insertCustomer(dbData) }
+
+        }
+
+        @Test
+        fun `fetch data from database when offline`() = runTest {
+            val dbData = customersTestData
+            coEvery { mockDao.getAllCustomers() } returns dbData
+
+            val result = repository.getCustomerList()
+
+            assertEquals(RepoResult.Success(dbData), result)
+            coVerify { mockDao.getAllCustomers() }
+        }
     }
-
-    @Test
-    fun `fetch data from database when offline`() = runTest {
-        val dbData = customersTestData
-        coEvery { mockDao.getAllCustomers() } returns dbData
-
-        val result = repository.getCustomerList()
-
-        assertEquals(RepoResult.Success(dbData), result)
-        coVerify { mockDao.getAllCustomers() }
-    }
-}

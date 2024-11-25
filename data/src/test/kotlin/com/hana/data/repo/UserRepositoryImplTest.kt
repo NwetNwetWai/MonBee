@@ -1,4 +1,4 @@
-package com.hana.data
+package com.hana.data.repo
 
 class UserRepositoryImplTest {
 }
