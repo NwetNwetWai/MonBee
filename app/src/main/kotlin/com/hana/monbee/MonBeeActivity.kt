@@ -17,7 +17,7 @@ class MonBeeActivity: ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MonBeeTheme {
-                Greeting("MonBee")
+                MonBeeApp()
             }
         }
     }

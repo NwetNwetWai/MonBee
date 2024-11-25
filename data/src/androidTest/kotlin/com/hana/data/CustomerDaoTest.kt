@@ -5,6 +5,7 @@ import androidx.test.core.app.ApplicationProvider
 import com.hana.data.database.AppDatabase
 import com.hana.data.database.dao.CustomerDao
 import com.hana.data.database.entity.CustomerEntity
+import com.hana.data.database.toDomain
 import com.hana.data.database.toEntity
 import kotlinx.coroutines.test.runTest
 import org.junit.After
@@ -47,11 +48,8 @@ class CustomerDaoTest {
 //        val customerTestEntity: List<CustomerEntity> = customerDaoTestData.map {
 //            it.toEntity(it.address?.id ?: 0, it.company?.id ?: 0)
 //        }
-//        customerTestEntity.forEach { dao.insertCustomer(it) }
-
-
-
-        val result = dao.getAllCustomers().first()
-        assertEquals(customerTestEntity, result)
+        customerDaoTestData.forEach { dao.insertAll(it.toEntity()) }
+        val result = dao.getAll().map { it.toDomain() }
+        assertEquals(customerDaoTestData, result)
     }
 }

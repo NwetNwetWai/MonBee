@@ -14,20 +14,17 @@ val customersTestData: List<Customer> = listOf(
         phone = "1-770-736-8031 x56442",
         website = "hildegard.org",
         address = Address(
-            id = 1,
             street = "Kulas Light",
             suite = "Apt. 556",
             city = "Gwenborough",
             zipcode = "92998-3874",
             geo = Geo(
-                id = 1,
                 lat = "-37.3159",
                 lng = "81.1496"
             )
         ),
         company = Company(
-            id = 1,
-            name = "Romaguera-Crona",
+            companyName = "Romaguera-Crona",
             catchPhrase = "Multi-layered client-server neural-net",
             bs = "harness real-time e-markets"
         )
@@ -40,20 +37,17 @@ val customersTestData: List<Customer> = listOf(
         phone =  "010-692-6593 x09125",
         website = "anastasia.net",
         address = Address(
-            id = 1,
             street = "Victor Plains",
             suite =  "Suite 879",
             city = "Wisokyburgh",
             zipcode = "90566-7771",
             geo = Geo(
-                id = 2,
                 lat = "-43.9509",
                 lng = "-34.4618"
             )
         ),
         company = Company(
-            id = 2,
-            name = "Deckow-Crist",
+            companyName = "Deckow-Crist",
             catchPhrase = "Proactive didactic contingency",
             bs = "synergize scalable supply-chains"
         )

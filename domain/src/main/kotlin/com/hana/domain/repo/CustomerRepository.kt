@@ -5,5 +5,6 @@ import com.hana.domain.util.RepoResult
 import kotlinx.coroutines.flow.Flow
 
 interface CustomerRepository {
+    suspend fun syncData()
     suspend fun getCustomerList(): RepoResult<List<Customer>>
 }

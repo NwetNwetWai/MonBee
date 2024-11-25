@@ -41,9 +41,6 @@ class SimpleEntityReadWriteTest {
         val customer: Customer = customerDaoTestData.get(0)
         userDao.insertAll(customer.toEntity())
         val allCustomers = userDao.getAll()
-        assertEquals(customer, allCustomers.map { it.toDomain() })
-//        assertThat(allCustomers, equalTo(user))
-//        val byName = userDao.findUsersByName("george")
-//        assertThat(byName.get(0), equalTo(user))
+        assertEquals(customer, allCustomers.map { it.toDomain() }.first())
     }
 }

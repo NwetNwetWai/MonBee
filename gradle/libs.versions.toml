@@ -5,7 +5,8 @@ hiltAndroid = "2.52"
 hiltAndroidCompiler = "2.51.1"
 hiltLifecycleViewmodel = "1.2.0"
 hiltNavigationCompose = "1.2.0"
-mockk = "1.13.5"
+chucker = "3.5.2"
+mockk = "1.13.4"
 navigationCompose = "2.8.0"
 room = "2.6.1"
 kotlin = "2.0.20"
@@ -34,7 +35,10 @@ androidxTestRules = "1.6.1"
 androidxTestCore = "1.5.0"
 androidxTestRunner = "1.6.2"
 roomGradlePlugin = "2.6.1"
-media3TestUtils = "1.4.1"
+retrofit = "2.11.0"
+okhttp = "4.12.0"
+kotlinxSerializationJson = "1.6.3"
+
 
 [libraries]
 androidx-core-ktx = { group = "androidx.core", name = "core-ktx", version.ref = "coreKtx" }
@@ -45,6 +49,7 @@ androidx-hilt-navigation-compose = { module = "androidx.hilt:hilt-navigation-com
 androidx-navigation-compose = { module = "androidx.navigation:navigation-compose", version.ref = "navigationCompose" }
 firebase-auth-ktx = { module = "com.google.firebase:firebase-auth-ktx" }
 firebase-bom = { module = "com.google.firebase:firebase-bom", version.ref = "firebaseBom" }
+chucker = { module = "com.github.chuckerteam.chucker:library", version.ref = "chucker" }
 mockk = { module = "io.mockk:mockk", version.ref = "mockk" }
 room-runtime = { module = "androidx.room:room-runtime", version.ref = "room"}
 room-complier = { module = "androidx.room:room-compiler", version.ref = "room"}
@@ -79,6 +84,10 @@ google-firebase-auth-ktx = { group = "com.google.firebase", name = "firebase-aut
 kotlinx-coroutines-test = { group = "org.jetbrains.kotlinx", name = "kotlinx-coroutines-test", version.ref = "kotlinxCoroutines" }
 androidx-test-rules = { group = "androidx.test", name = "rules", version.ref = "androidxTestRules" }
 androidx-room-gradle-plugin = { group = "androidx.room", name = "room-gradle-plugin", version.ref = "roomGradlePlugin" }
+okhttp-logging = { group = "com.squareup.okhttp3", name = "logging-interceptor", version.ref = "okhttp" }
+retrofit-core = { group = "com.squareup.retrofit2", name = "retrofit", version.ref = "retrofit" }
+retrofit-kotlin-serialization = { group = "com.squareup.retrofit2", name = "converter-kotlinx-serialization", version.ref = "retrofit" }
+kotlinx-serialization-json = { group = "org.jetbrains.kotlinx", name = "kotlinx-serialization-json", version.ref = "kotlinxSerializationJson" }
 
 
 [plugins]
@@ -90,4 +99,5 @@ ksp = { id = "com.google.devtools.ksp", version.ref = "ksp" }
 gms = { id = "com.google.gms.google-services", version.ref = "gms" }
 hilt = { id = "com.google.dagger.hilt.android", version.ref = "hilt" }
 room = { id = "androidx.room", version.ref = "room" }
+serialization = { id = "org.jetbrains.kotlin.plugin.serialization", version.ref = "kotlin" }
 

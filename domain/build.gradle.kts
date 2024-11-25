@@ -1,6 +1,7 @@
 plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
+    alias(libs.plugins.serialization)
 }
 
 android {
@@ -34,6 +35,8 @@ android {
 
 dependencies {
     testImplementation(project(":testing"))
+
+    implementation(libs.kotlinx.serialization.json)
 
     api(libs.kotlinx.coroutines.test)
     implementation(libs.androidx.core.ktx)

@@ -6,6 +6,7 @@ plugins {
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.ksp)
     alias(libs.plugins.room)
+    alias(libs.plugins.hilt)
 }
 
 android {
@@ -48,14 +49,25 @@ dependencies {
     ksp(libs.room.complier)
     implementation(libs.room.testing)
 
+    //Dependency - hilt
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.android.compiler)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)
     implementation(libs.material)
     implementation(libs.androidx.room.gradle.plugin)
 
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.okhttp.logging)
+    implementation(libs.retrofit.core)
+    implementation(libs.retrofit.kotlin.serialization)
+
+    debugImplementation (libs.chucker)
+
+
     testImplementation(libs.junit)
-//    testImplementation (libs.mockk)
+    testImplementation (libs.mockk)
     testImplementation(project(":testing"))
 //    androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -65,14 +77,5 @@ dependencies {
     androidTestImplementation(libs.room.testing)
     androidTestImplementation(libs.androidx.junit)
 
-//    implementation("dependency-causing-conflict") {
-//        exclude(group = "com.intellij", module = "annotations")
-//    }
 }
-configurations.all {
-    resolutionStrategy.eachDependency {
-        if (requested.group == "com.intellij" && requested.name == "annotations") {
-            useTarget("org.jetbrains:annotations:23.0.0")
-        }
-    }
-}
+

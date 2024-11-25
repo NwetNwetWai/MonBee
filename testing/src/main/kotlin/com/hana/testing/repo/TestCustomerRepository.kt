@@ -6,6 +6,10 @@ import com.hana.domain.util.RepoResult
 
 class TestCustomerRepository: CustomerRepository {
     var customers: List<Customer> = emptyList()
+    override suspend fun syncData() {
+
+    }
+
     override suspend fun getCustomerList(): RepoResult<List<Customer>> {
         return if (customers.isEmpty()) {
             RepoResult.Failure("Data not found")

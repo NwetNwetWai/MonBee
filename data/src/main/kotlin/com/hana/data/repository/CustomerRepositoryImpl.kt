@@ -3,18 +3,19 @@ package com.hana.data.repository
 import com.hana.data.database.dao.CustomerDao
 import com.hana.data.database.toDomain
 import com.hana.data.database.toEntity
-import com.hana.data.network.ApiService
+import com.hana.data.network.APIManagerInterface
 import com.hana.domain.model.Customer
 import com.hana.domain.repo.CustomerRepository
 import com.hana.domain.util.RepoResult
+import javax.inject.Inject
 
-class CustomerRepositoryImpl(
-    private val apiService: ApiService,
+class CustomerRepositoryImpl @Inject constructor(
+    private val apiManagerInterface: APIManagerInterface,
     private val customerDao: CustomerDao,
 ) : CustomerRepository {
 
-    suspend fun syncData() {
-        val apiData = apiService.fetchCustomerData()
+    override suspend fun syncData() {
+        val apiData = apiManagerInterface.service().fetchCustomerData()
         apiData.forEach { customerDao.insertAll(it.toEntity()) }
     }
 

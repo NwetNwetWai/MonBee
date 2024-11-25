@@ -1,7 +1,81 @@
 package com.hana.monbee
 
-import android.app.Application
-import dagger.hilt.android.HiltAndroidApp
+import androidx.compose.foundation.layout.padding
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Scaffold
+import androidx.compose.material3.Surface
+import androidx.compose.runtime.Composable
+import androidx.compose.runtime.remember
+import androidx.compose.ui.Modifier
+import androidx.navigation.compose.NavHost
+import androidx.navigation.NavGraphBuilder
+import androidx.navigation.NavHostController
+import androidx.navigation.compose.composable
+import androidx.navigation.compose.rememberNavController
+import androidx.navigation.navArgument
+import com.hana.monbee.feature.auth.SignInScreen
+import com.hana.monbee.navigation.CUSTOMER_DETAIL_SCREEN
+import com.hana.monbee.navigation.CUSTOMER_LIST_SCREEN
+import com.hana.monbee.navigation.NOTE_DEFAULT_ID
+import com.hana.monbee.navigation.NOTE_ID
+import com.hana.monbee.navigation.NOTE_ID_ARG
+import com.hana.monbee.navigation.SIGN_IN_SCREEN
+import com.hana.monbee.navigation.SIGN_UP_SCREEN
+import com.hana.monbee.ui.MonBeeTheme
 
-@HiltAndroidApp
-class MonBeeApp : Application()
+@Composable
+fun MonBeeApp() {
+    MonBeeTheme{
+        Surface(color = MaterialTheme.colorScheme.background) {
+            val appState = rememberAppState()
+
+            Scaffold { innerPaddingModifier ->
+                NavHost(
+                    navController = appState.navController,
+                    startDestination = SIGN_IN_SCREEN,
+                    modifier = Modifier.padding(innerPaddingModifier)
+                ) {
+                    notesGraph(appState)
+                }
+            }
+        }
+    }
+}
+
+@Composable
+fun rememberAppState(navController: NavHostController = rememberNavController()) =
+    remember(navController) {
+        MonBeeAppState(navController)
+    }
+
+fun NavGraphBuilder.notesGraph(appState: MonBeeAppState) {
+    composable(CUSTOMER_LIST_SCREEN) {
+//        NotesListScreen(
+//            restartApp = { route -> appState.clearAndNavigate(route) },
+//            openScreen = { route -> appState.navigate(route) }
+//        )
+    }
+
+    composable(
+        route = "$CUSTOMER_DETAIL_SCREEN$NOTE_ID_ARG",
+        arguments = listOf(navArgument(NOTE_ID) { defaultValue = NOTE_DEFAULT_ID })
+    ) {
+//        NoteScreen(
+//            noteId = it.arguments?.getString(NOTE_ID) ?: NOTE_DEFAULT_ID,
+//            popUpScreen = { appState.popUp() },
+//            restartApp = { route -> appState.clearAndNavigate(route) }
+//        )
+    }
+
+    composable(SIGN_IN_SCREEN) {
+        SignInScreen(openAndPopUp = { route, popUp -> appState.navigateAndPopUp(route, popUp) })
+    }
+
+    composable(SIGN_UP_SCREEN) {
+//        SignUpScreen(openAndPopUp = { route, popUp -> appState.navigateAndPopUp(route, popUp) })
+    }
+
+//    composable(SPLASH_SCREEN) {
+//        SplashScreen(openAndPopUp = { route, popUp -> appState.navigateAndPopUp(route, popUp) })
+//    }
+}

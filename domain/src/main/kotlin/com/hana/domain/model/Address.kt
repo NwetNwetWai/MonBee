@@ -1,5 +1,8 @@
 package com.hana.domain.model
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class Address(
     val street: String?,
     val suite: String?,

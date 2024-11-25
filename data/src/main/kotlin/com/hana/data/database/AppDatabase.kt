@@ -10,7 +10,7 @@ import com.hana.data.database.entity.CustomerEntity
     entities = [CustomerEntity::class],
     version = 1
 )
-
+@TypeConverters(GeoTypeConverter::class)
 abstract class AppDatabase : RoomDatabase() {
     abstract fun customerDao(): CustomerDao
 }
