@@ -10,10 +10,11 @@ Bee for Field Officer
 
 ## **Installation**
 
-To install Project Title, follow these steps:
+To install MonBee, follow these steps:
 
 1. Clone the repository: **`git clone https://github.com/NwetNwetWai/MonBee.git`**
 2. Navigate to the project directory: **`cd /app/src/main/kotlin/com/hana/monbee`**
+3. Run
 
 ![authScreen](https://github.com/user-attachments/assets/d71e47ae-271b-41bc-9af6-61bfd3416298)
 ![CustomerDetailScreen](https://github.com/user-attachments/assets/ab5630eb-b64c-4e5d-90ca-029cb1985391)
