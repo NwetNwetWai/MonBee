@@ -21,7 +21,9 @@ class CustomerRepositoryImpl @Inject constructor(
             val apiData = apiManagerInterface.service().fetchCustomerData()
             if(customers.isEmpty()) {
                 apiData.forEach { customerDao.insertAll(it.toEntity()) }
-            } else  apiData.forEach { customerDao.updateCustomers(it.toEntity()) }
+            } else  {
+                apiData.forEach { customerDao.updateCustomers(it.toEntity()) }
+            }
         } catch (e: Exception) {
             throw e
         }

@@ -7,6 +7,7 @@ plugins {
     alias(libs.plugins.ksp)
     alias(libs.plugins.room)
     alias(libs.plugins.hilt)
+    alias(libs.plugins.gms)
 }
 
 android {
@@ -52,6 +53,10 @@ dependencies {
     //Dependency - hilt
     implementation(libs.hilt.android)
     ksp(libs.hilt.android.compiler)
+
+    //firebase
+    implementation(libs.firebase.common.ktx)
+    implementation(libs.google.firebase.auth.ktx)
 
     implementation(libs.androidx.core.ktx)
     implementation(libs.androidx.appcompat)

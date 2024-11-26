@@ -30,17 +30,13 @@ class SignInViewModel @Inject constructor(
     }
 
     fun onSignInClick(openAndPopUp: (String, String) -> Unit) {
-        viewModelScope.launch {
+        launchCatching {
             userRepository.signIn(email.value, password.value)
             openAndPopUp(CUSTOMER_LIST_SCREEN, SIGN_IN_SCREEN)
         }
     }
 
     fun onSignUpClick(openAndPopUp: (String, String) -> Unit) {
-        viewModelScope.launch {
-           val customers = customerRepository.getCustomerList()
-            println("DATA::::$customers")
-        }
-        openAndPopUp(CUSTOMER_LIST_SCREEN, SIGN_IN_SCREEN)
+        openAndPopUp(SIGN_UP_SCREEN, SIGN_IN_SCREEN)
     }
 }

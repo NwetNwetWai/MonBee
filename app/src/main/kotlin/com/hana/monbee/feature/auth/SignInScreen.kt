@@ -19,8 +19,6 @@ import androidx.compose.material3.Button
 import androidx.compose.material3.Icon
 import androidx.compose.material3.OutlinedTextField
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
-import androidx.compose.material3.TextFieldDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.collectAsState
 import androidx.compose.ui.Alignment
@@ -73,17 +71,12 @@ fun SignInScreen(
                 .fillMaxWidth()
                 .padding(16.dp, 4.dp)
                 .border(
-                    BorderStroke(width = 2.dp, color = Color.Cyan),
-                    shape = RoundedCornerShape(50)
+                    BorderStroke(width = 2.dp, color = Color.Blue),
+//                    shape = RoundedCornerShape(50)
                 ),
-//            colors = TextFieldDefaults.textFieldColors(
-//                containerColor = Color.Transparent,
-//                focusedIndicatorColor = Color.Transparent,
-//                unfocusedIndicatorColor = Color.Transparent
-//            ),
             value = email.value,
             onValueChange = { viewModel.updateEmail(it) },
-//            placeholder = { Text(stringResource(R.string.email)) },
+            placeholder = { Text("email") },
             leadingIcon = { Icon(imageVector = Icons.Default.Email, contentDescription = "Email") }
         )
 
@@ -94,16 +87,11 @@ fun SignInScreen(
                 .padding(16.dp, 4.dp)
                 .border(
                     BorderStroke(width = 2.dp, color = Color.Blue),
-                    shape = RoundedCornerShape(50)
+//                    shape = RoundedCornerShape(50)
                 ),
-//            colors = TextFieldDefaults.textFieldColors(
-//                containerColor = Color.Transparent,
-//                focusedIndicatorColor = Color.Transparent,
-//                unfocusedIndicatorColor = Color.Transparent
-//            ),
             value = password.value,
             onValueChange = { viewModel.updatePassword(it) },
-//            placeholder = { Text(stringResource(R.string.password)) },
+            placeholder = { Text("password") },
             leadingIcon = { Icon(imageVector = Icons.Default.Lock, contentDescription = "Email") },
             visualTransformation = PasswordVisualTransformation()
         )
@@ -134,13 +122,13 @@ fun SignInScreen(
                 .padding(4.dp)
         )
 
-        TextButton(onClick = { viewModel.onSignUpClick(openAndPopUp) }) {
-            Text(
-                text = "Sign Up",
-//                text = stringResource(R.string.sign_up_description),
-                fontSize = 16.sp
-            )
-        }
+//        TextButton(onClick = { viewModel.onSignUpClick(openAndPopUp) }) {
+//            Text(
+//                text = "Sign Up",
+////                text = stringResource(R.string.sign_up_description),
+//                fontSize = 16.sp
+//            )
+//        }
     }
 }
 

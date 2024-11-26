@@ -107,7 +107,7 @@ fun CustomerDetailScreen(
 
                         ) {
                         Text(
-                            text = state.data.name.toString(),
+                            text = "Name: " + state.data.name.toString(),
                             style = MaterialTheme.typography.titleSmall,
                             modifier = Modifier.padding(12.dp)
                         )

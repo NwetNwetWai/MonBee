@@ -77,7 +77,4 @@ fun NavGraphBuilder.notesGraph(appState: MonBeeAppState) {
 //        SignUpScreen(openAndPopUp = { route, popUp -> appState.navigateAndPopUp(route, popUp) })
     }
 
-//    composable(SPLASH_SCREEN) {
-//        SplashScreen(openAndPopUp = { route, popUp -> appState.navigateAndPopUp(route, popUp) })
-//    }
 }
