@@ -12,11 +12,11 @@ import com.hana.domain.model.Customer
 @Dao
 interface CustomerDao {
     @Insert
-    fun insertAll(vararg customers: CustomerEntity)
+    suspend fun insertAll(vararg customers: CustomerEntity)
 
     @Delete
-    fun delete(customer: CustomerEntity)
+    suspend fun delete(customer: CustomerEntity)
 
     @Query("SELECT * FROM customers")
-    fun getAll(): List<CustomerEntity>
+    suspend fun getAll(): List<CustomerEntity>
 }
