@@ -43,6 +43,7 @@ dependencies {
     ksp(libs.hilt.android.compiler)
 
     implementation(libs.kotlinx.serialization.json)
+    implementation(libs.gson)
 
     api(libs.kotlinx.coroutines.test)
     implementation(libs.androidx.core.ktx)

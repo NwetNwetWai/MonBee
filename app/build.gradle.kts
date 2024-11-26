@@ -53,6 +53,9 @@ dependencies {
     implementation(platform(libs.firebase.bom)) // Manage versions
     implementation(libs.firebase.auth.ktx)
 
+    implementation(libs.kotlinx.serialization.json)
+    implementation(libs.gson)
+
     implementation(platform(libs.androidx.compose.bom))
     implementation(libs.androidx.navigation.compose)
     implementation(libs.androidx.core.ktx)

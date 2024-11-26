@@ -1,5 +1,6 @@
 package com.hana.testing.repo
 
+import android.content.Context
 import com.hana.domain.model.Customer
 import com.hana.domain.repo.CustomerRepository
 import com.hana.domain.util.RepoResult
@@ -17,5 +18,9 @@ class TestCustomerRepository: CustomerRepository {
     override suspend fun getCustomerDetail(customerId: Int): RepoResult<Customer> {
 
         return RepoResult.Success(customers[customerId])
+    }
+
+    override fun generateJson(context: Context, customers: String) {
+
     }
 }

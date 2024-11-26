@@ -1,6 +1,8 @@
 package com.hana.monbee.feature.customerList
 
+import android.content.Context
 import com.hana.domain.model.Customer
+import com.hana.domain.usecase.GenerateJsonUseCase
 import com.hana.domain.usecase.GetCustomerListUseCase
 import com.hana.domain.util.RepoResult
 import com.hana.monbee.MonBeeViewModel
@@ -19,11 +21,13 @@ data class CustomerListScreenState(
 )
 sealed interface CustomerListScreenEvent {
     data class ShowCustomerDetail(val openScreen: (String) -> Unit, val customer: Customer): CustomerListScreenEvent
+    data class GenerateJson(val context: Context, val customers: List<Customer>) : CustomerListScreenEvent
 }
 
 @HiltViewModel
 class CustomerListViewModel @Inject constructor (
-    private val customerListUseCase: GetCustomerListUseCase
+    private val customerListUseCase: GetCustomerListUseCase,
+    private val generateJsonUseCase: GenerateJsonUseCase
 ): MonBeeViewModel() {
     private val _states by lazy { MutableStateFlow(CustomerListScreenState()) }
     val states = _states.asStateFlow()
@@ -32,7 +36,12 @@ class CustomerListViewModel @Inject constructor (
         is CustomerListScreenEvent.ShowCustomerDetail -> {
             showCustomerDetail(event.openScreen, event.customer)
         }
+
+        is CustomerListScreenEvent.GenerateJson -> {
+            generateJson(event.context, event.customers)
+        }
     }
+
 
     fun initialize(restartApp: (String) -> Unit) {
         _states.update { it.copy(loading = true) }
@@ -45,6 +54,14 @@ class CustomerListViewModel @Inject constructor (
     }
     private fun showCustomerDetail(openScreen: (String) -> Unit, customer: Customer) {
         openScreen("$CUSTOMER_DETAIL_SCREEN?$SCREEN_ID=${customer.id}")
+    }
+
+
+    private fun generateJson(context: Context, customers: List<Customer>) {
+        launchCatching {
+            generateJsonUseCase.execute(context, customers)
+        }
+
     }
 
 }

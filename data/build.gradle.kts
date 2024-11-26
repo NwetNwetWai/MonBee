@@ -64,6 +64,7 @@ dependencies {
     implementation(libs.androidx.room.gradle.plugin)
 
     implementation(libs.kotlinx.serialization.json)
+    implementation(libs.gson)
     implementation(libs.okhttp.logging)
     implementation(libs.retrofit.core)
     implementation(libs.retrofit.kotlin.serialization)

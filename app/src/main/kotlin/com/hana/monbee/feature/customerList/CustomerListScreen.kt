@@ -17,8 +17,14 @@ import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
 import androidx.compose.material.icons.filled.ExitToApp
+import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.Share
+import androidx.compose.material3.AlertDialog
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
+import androidx.compose.material3.DropdownMenu
+import androidx.compose.material3.DropdownMenuItem
 import androidx.compose.material3.ExperimentalMaterial3Api
 import androidx.compose.material3.FloatingActionButton
 import androidx.compose.material3.Icon
@@ -36,9 +42,11 @@ import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.hana.domain.model.Customer
 import com.hana.monbee.R
@@ -56,9 +64,12 @@ fun CustomerListScreen(
 ) {
     val events = viewModel::onEvent
     val state by viewModel.states.collectAsState()
+    val context = LocalContext.current
 
-    var showExitAppDialog by remember { mutableStateOf(false) }
-    var showRemoveAccDialog by remember { mutableStateOf(false) }
+    var showAddNewCustomerDialog by remember { mutableStateOf(false) }
+    var isExpanded by remember { mutableStateOf(false) }
+    var actionList = listOf("generateJson")
+
     LaunchedEffect(Unit) { viewModel.initialize(restartApp) }
 
     Scaffold(
@@ -66,7 +77,7 @@ fun CustomerListScreen(
             FloatingActionButton(
                 onClick = {
                     println("CLICK:::1")
-//                    viewModel.onAddClick(openScreen)
+                    showAddNewCustomerDialog = true
                 },
                 modifier = modifier.padding(16.dp),
                 containerColor = Purple40,
@@ -84,15 +95,26 @@ fun CustomerListScreen(
             TopAppBar(
                 title = { Text(stringResource(R.string.app_name)) },
                 actions = {
-                    IconButton(onClick = { showExitAppDialog = true }) {
-                        Icon(Icons.Filled.ExitToApp, "Exit app")
+                    IconButton(onClick = {
+                        isExpanded = true
+                        }
+                    ) {
+                        Icon(Icons.Filled.MoreVert, null)
                     }
-                    IconButton(onClick = { showRemoveAccDialog = true }) {
-//                        Icon(
-//                            painter = painterResource(id = R.drawable.person_remove),
-//                            contentDescription = "Remove account",
-//                            tint = PurpleGrey40
-//                        )
+                    DropdownMenu(
+                        expanded = isExpanded,
+                        onDismissRequest = { isExpanded = false}
+                    ) {
+                        actionList.forEach { action ->
+                            DropdownMenuItem(
+                                text = {Text(text = action)},
+                                onClick = {
+                                    isExpanded = false
+                                    events(CustomerListScreenEvent.GenerateJson(context,state.customers))
+                                }
+                            )
+
+                        }
                     }
                 }
             )
@@ -163,51 +185,28 @@ fun CustomerListScreen(
         }
     }
 }
-
-//            if (showExitAppDialog) {
-//                AlertDialog(
-//                    title = { Text(stringResource(R.string.sign_out_title)) },
-//                    text = { Text(stringResource(R.string.sign_out_description)) },
-//                    dismissButton = {
-//                        Button(onClick = { showExitAppDialog = false }) {
-//                            Text(text = stringResource(R.string.cancel))
-//                        }
-//                    },
-//                    confirmButton = {
-//                        Button(onClick = {
-//                            viewModel.onSignOutClick()
-//                            showExitAppDialog = false
-//                        }) {
-//                            Text(text = stringResource(R.string.sign_out))
-//                        }
-//                    },
-//                    onDismissRequest = { showExitAppDialog = false }
-//                )
-//            }
-//
-//            if (showRemoveAccDialog) {
-//                AlertDialog(
-//                    title = { Text(stringResource(R.string.delete_account_title)) },
-//                    text = { Text(stringResource(R.string.delete_account_description)) },
-//                    dismissButton = {
-//                        Button(onClick = { showRemoveAccDialog = false }) {
-//                            Text(text = stringResource(R.string.cancel))
-//                        }
-//                    },
-//                    confirmButton = {
-//                        Button(onClick = {
-//                            viewModel.onDeleteAccountClick()
-//                            showRemoveAccDialog = false
-//                        }) {
-//                            Text(text = stringResource(R.string.delete_account))
-//                        }
-//                    },
-//                    onDismissRequest = { showRemoveAccDialog = false }
-//                )
-//            }
-//        }
+//    if (showAddNewCustomerDialog) {
+//        Dialog(
+//            title = { Text("Added New Customer") },
+//            text = { Text("Please fill new customer information.") },
+//            dismissButton = {
+//                Button(onClick = { showAddNewCustomerDialog = false }) {
+//                    Text(text = "Cancel")
+//                }
+//            },
+//            confirmButton = {
+//                Button(onClick = {
+//                    events(CustomerListScreenEvent.AddNewCustomer())
+//                    showExitAppDialog = false
+//                }) {
+//                    Text(text = "Add")
+//                }
+//            },
+//            onDismissRequest = { showAddNewCustomerDialog = false }
+//        )
 //    }
 //}
+
 
 @Composable
 fun CustomerItem(

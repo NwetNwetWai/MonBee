@@ -1,5 +1,7 @@
 package com.hana.data.repository
 
+import android.content.Context
+import android.util.Log
 import com.hana.data.database.dao.CustomerDao
 import com.hana.data.database.toDomain
 import com.hana.data.database.toEntity
@@ -7,8 +9,12 @@ import com.hana.data.network.APIManagerInterface
 import com.hana.domain.model.Customer
 import com.hana.domain.repo.CustomerRepository
 import com.hana.domain.util.RepoResult
+import kotlinx.coroutines.Dispatchers
+import kotlinx.coroutines.withContext
+import java.io.BufferedWriter
+import java.io.File
+import java.io.FileWriter
 import javax.inject.Inject
-import kotlin.jvm.Throws
 
 class CustomerRepositoryImpl @Inject constructor(
     private val apiManagerInterface: APIManagerInterface,
@@ -39,5 +45,25 @@ class CustomerRepositoryImpl @Inject constructor(
         val customer = customerDao.getCustomer(customerId)
         return RepoResult.Success(customer.toDomain())
 
+    }
+
+    override suspend fun generateJson(context: Context, customers: String) {
+        val fileName = "customers"
+        try {
+            val directory = context.getDir("data", Context.MODE_PRIVATE)
+            if (!directory.exists()) {
+                directory.mkdirs()
+            }
+            val file = File(directory, "$fileName.json")
+            withContext(Dispatchers.IO) {
+                BufferedWriter(FileWriter(file)).use { writer ->
+                    writer.write(customers)
+                }
+            }
+
+            Log.d("FileSave", "File saved successfully at: ${file.absolutePath}")
+        } catch (e: Exception) {
+            Log.e("FileSaveError", "Error saving file: ${e.message}", e)
+        }
     }
 }

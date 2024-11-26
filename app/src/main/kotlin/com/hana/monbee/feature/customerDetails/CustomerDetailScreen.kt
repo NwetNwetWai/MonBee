@@ -51,14 +51,6 @@ fun CustomerDetailScreen(
     ) {
         TopAppBar(
             title = { Text("Customer Detail") },
-//            actions = {
-//                IconButton(onClick = { viewModel.saveNote(popUpScreen) }) {
-//                    Icon(Icons.Filled.Done, "Save note")
-//                }
-//                IconButton(onClick = { viewModel.deleteNote(popUpScreen) }) {
-//                    Icon(Icons.Filled.Delete, "Save note")
-//                }
-//            }
         )
 
         Spacer(
