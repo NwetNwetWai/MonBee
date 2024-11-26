@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.hana.domain.repo.CustomerRepository
 import com.hana.domain.repo.UserRepository
+import com.hana.monbee.MonBeeViewModel
 import com.hana.monbee.navigation.CUSTOMER_LIST_SCREEN
 import com.hana.monbee.navigation.SIGN_IN_SCREEN
 import com.hana.monbee.navigation.SIGN_UP_SCREEN
@@ -16,7 +17,7 @@ import javax.inject.Inject
 class SignInViewModel @Inject constructor(
     private val userRepository: UserRepository,
     private val customerRepository: CustomerRepository
-) : ViewModel(){
+) : MonBeeViewModel(){
     val email = MutableStateFlow("")
     val password = MutableStateFlow("")
 
@@ -37,10 +38,9 @@ class SignInViewModel @Inject constructor(
 
     fun onSignUpClick(openAndPopUp: (String, String) -> Unit) {
         viewModelScope.launch {
-            customerRepository.syncData()
            val customers = customerRepository.getCustomerList()
             println("DATA::::$customers")
         }
-        openAndPopUp(SIGN_UP_SCREEN, SIGN_IN_SCREEN)
+        openAndPopUp(CUSTOMER_LIST_SCREEN, SIGN_IN_SCREEN)
     }
 }

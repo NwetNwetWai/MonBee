@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "456127778667",
+    "project_id": "monbee-73bbe",
+    "storage_bucket": "monbee-73bbe.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:456127778667:android:88d886b96992180fac462e",
+        "android_client_info": {
+          "package_name": "com.hana.monbee"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyB0-g0bez9esgZSbq7kZjBI2X1KXzin-d4"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

@@ -10,6 +10,7 @@ import com.hana.data.database.toDomain
 import com.hana.data.database.toEntity
 import com.hana.domain.model.Customer
 import junit.framework.TestCase.assertEquals
+import kotlinx.coroutines.test.runTest
 import org.junit.After
 import org.junit.Before
 import org.junit.Test
@@ -37,7 +38,7 @@ class SimpleEntityReadWriteTest {
 
     @Test
     @Throws(Exception::class)
-    fun writeUserAndReadInList() {
+    fun writeUserAndReadInList() = runTest {
         val customer: Customer = customerDaoTestData.get(0)
         userDao.insertAll(customer.toEntity())
         val allCustomers = userDao.getAll()

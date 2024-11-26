@@ -2,6 +2,8 @@ plugins {
     alias(libs.plugins.android.library)
     alias(libs.plugins.kotlin.android)
     alias(libs.plugins.serialization)
+    alias(libs.plugins.hilt)
+    alias(libs.plugins.ksp)
 }
 
 android {
@@ -35,6 +37,10 @@ android {
 
 dependencies {
     testImplementation(project(":testing"))
+
+    //Dependency - hilt
+    implementation(libs.hilt.android)
+    ksp(libs.hilt.android.compiler)
 
     implementation(libs.kotlinx.serialization.json)
 

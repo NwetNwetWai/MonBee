@@ -7,18 +7,20 @@ import androidx.compose.material3.Surface
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Modifier
-import androidx.navigation.compose.NavHost
 import androidx.navigation.NavGraphBuilder
 import androidx.navigation.NavHostController
+import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
 import androidx.navigation.navArgument
 import com.hana.monbee.feature.auth.SignInScreen
+import com.hana.monbee.feature.customerDetails.CustomerDetailScreen
+import com.hana.monbee.feature.customerList.CustomerListScreen
 import com.hana.monbee.navigation.CUSTOMER_DETAIL_SCREEN
 import com.hana.monbee.navigation.CUSTOMER_LIST_SCREEN
-import com.hana.monbee.navigation.NOTE_DEFAULT_ID
-import com.hana.monbee.navigation.NOTE_ID
-import com.hana.monbee.navigation.NOTE_ID_ARG
+import com.hana.monbee.navigation.SCREEN_DEFAULT_ID
+import com.hana.monbee.navigation.SCREEN_ID
+import com.hana.monbee.navigation.SCREEN_ID_ARG
 import com.hana.monbee.navigation.SIGN_IN_SCREEN
 import com.hana.monbee.navigation.SIGN_UP_SCREEN
 import com.hana.monbee.ui.MonBeeTheme
@@ -50,21 +52,21 @@ fun rememberAppState(navController: NavHostController = rememberNavController())
 
 fun NavGraphBuilder.notesGraph(appState: MonBeeAppState) {
     composable(CUSTOMER_LIST_SCREEN) {
-//        NotesListScreen(
-//            restartApp = { route -> appState.clearAndNavigate(route) },
-//            openScreen = { route -> appState.navigate(route) }
-//        )
+        CustomerListScreen(
+            restartApp = { route -> appState.clearAndNavigate(route) },
+            openScreen = { route -> appState.navigate(route) }
+        )
     }
 
     composable(
-        route = "$CUSTOMER_DETAIL_SCREEN$NOTE_ID_ARG",
-        arguments = listOf(navArgument(NOTE_ID) { defaultValue = NOTE_DEFAULT_ID })
+        route = "$CUSTOMER_DETAIL_SCREEN$SCREEN_ID_ARG",
+        arguments = listOf(navArgument(SCREEN_ID) { defaultValue = SCREEN_DEFAULT_ID })
     ) {
-//        NoteScreen(
-//            noteId = it.arguments?.getString(NOTE_ID) ?: NOTE_DEFAULT_ID,
-//            popUpScreen = { appState.popUp() },
-//            restartApp = { route -> appState.clearAndNavigate(route) }
-//        )
+        CustomerDetailScreen(
+            customerId = it.arguments?.getString(SCREEN_ID) ?: SCREEN_DEFAULT_ID,
+            popUpScreen = { appState.popUp() },
+            restartApp = { route -> appState.clearAndNavigate(route) }
+        )
     }
 
     composable(SIGN_IN_SCREEN) {
