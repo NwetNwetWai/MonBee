@@ -17,15 +17,8 @@ class MonBeeActivity: ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MonBeeTheme {
-                Greeting("MonBee")
+                MonBeeApp()
             }
         }
     }
-}
-@Composable
-fun Greeting(name: String, modifier: Modifier = Modifier) {
-    Text(
-        text = "Hello $name!",
-        modifier = modifier
-    )
 }
