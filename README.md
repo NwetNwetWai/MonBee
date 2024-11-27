@@ -16,10 +16,6 @@ To install MonBee, follow these steps:
 2. Navigate to the project directory: **`cd /app/src/main/kotlin/com/hana/monbee`**
 3. Run
 
-![authScreen](https://github.com/user-attachments/assets/d71e47ae-271b-41bc-9af6-61bfd3416298)
-![CustomerDetailScreen](https://github.com/user-attachments/assets/ab5630eb-b64c-4e5d-90ca-029cb1985391)
-![customerListScreen](https://github.com/user-attachments/assets/7317a825-f91a-4227-a082-b39e6d0e8d1d)
-![generateJson](https://github.com/user-attachments/assets/42d10fa6-9f13-4d8b-aca0-381b85a324b7)
 
 ## **Architecture**
 
