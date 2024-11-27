@@ -21,7 +21,7 @@ class TestCustomerRepository: CustomerRepository {
     }
 
     override suspend fun generateJson(context: Context, customers: String) {
-        
+
     }
 
     override suspend fun saveNewCustomer(customer: Customer): RepoResult<List<Customer>> {
