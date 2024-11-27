@@ -2,6 +2,7 @@ package com.hana.data.repository
 
 import com.google.firebase.auth.ktx.auth
 import com.google.firebase.ktx.Firebase
+import com.hana.domain.model.Customer
 import com.hana.domain.repo.UserRepository
 import com.hana.domain.util.RepoResult
 import okio.IOException
@@ -20,4 +21,5 @@ class UserRepositoryImpl @Inject constructor() : UserRepository{
                return RepoResult.Failure(errorMessage)
            }
     }
+
 }

@@ -4,6 +4,7 @@ import android.content.Context
 import com.hana.domain.model.Customer
 import com.hana.domain.usecase.GenerateJsonUseCase
 import com.hana.domain.usecase.GetCustomerListUseCase
+import com.hana.domain.usecase.SaveNewCustomerUseCase
 import com.hana.domain.util.RepoResult
 import com.hana.monbee.MonBeeViewModel
 import com.hana.monbee.navigation.CUSTOMER_DETAIL_SCREEN
@@ -17,17 +18,21 @@ import javax.inject.Inject
 data class CustomerListScreenState(
     val loading: Boolean = false,
     val customers: List<Customer> = listOf(),
-    val error: String? = ""
+    val error: String? = "",
+    val success: String? = ""
 )
 sealed interface CustomerListScreenEvent {
     data class ShowCustomerDetail(val openScreen: (String) -> Unit, val customer: Customer): CustomerListScreenEvent
     data class GenerateJson(val context: Context, val customers: List<Customer>) : CustomerListScreenEvent
+    data class SaveNewCustomer(val newCustomer: Customer) : CustomerListScreenEvent
+    data object Dismiss: CustomerListScreenEvent
 }
 
 @HiltViewModel
 class CustomerListViewModel @Inject constructor (
     private val customerListUseCase: GetCustomerListUseCase,
-    private val generateJsonUseCase: GenerateJsonUseCase
+    private val generateJsonUseCase: GenerateJsonUseCase,
+    private val saveNewCustomerUseCase: SaveNewCustomerUseCase
 ): MonBeeViewModel() {
     private val _states by lazy { MutableStateFlow(CustomerListScreenState()) }
     val states = _states.asStateFlow()
@@ -39,6 +44,26 @@ class CustomerListViewModel @Inject constructor (
 
         is CustomerListScreenEvent.GenerateJson -> {
             generateJson(event.context, event.customers)
+        }
+
+        CustomerListScreenEvent.Dismiss -> {
+            _states.update { it.copy(error = null) }
+            _states.update { it.copy(success = null) }
+        }
+
+        is CustomerListScreenEvent.SaveNewCustomer -> {
+            saveNewCustomer(event.newCustomer)
+        }
+    }
+
+    private fun saveNewCustomer(newCustomer: Customer) {
+        println("CUSTOMER:::$newCustomer")
+        _states.update { it.copy(loading = true) }
+        launchCatching {
+         when(val result = saveNewCustomerUseCase.execute(newCustomer) ){
+             is RepoResult.Failure -> {_states.update { it.copy(loading = false, error = result.error) }}
+             is RepoResult.Success -> {_states.update { it.copy(loading = false, success = result.data) }}
+         }
         }
     }
 

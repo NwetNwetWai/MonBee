@@ -8,4 +8,5 @@ interface CustomerRepository {
     suspend fun getCustomerList(): RepoResult<List<Customer>>
     suspend fun getCustomerDetail(customerId: Int): RepoResult<Customer>
     suspend fun generateJson(context: Context, customers: String)
+    suspend fun saveNewCustomer(customer: Customer): RepoResult<String>
 }

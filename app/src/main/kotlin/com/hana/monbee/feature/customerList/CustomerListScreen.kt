@@ -16,7 +16,9 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
+import androidx.compose.material.icons.filled.Done
 import androidx.compose.material.icons.filled.MoreVert
+import androidx.compose.material.icons.filled.Warning
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenu
@@ -46,8 +48,10 @@ import androidx.hilt.navigation.compose.hiltViewModel
 import com.hana.domain.model.Customer
 import com.hana.monbee.R
 import com.hana.monbee.feature.addCustomer.TextInputDialog
+import com.hana.monbee.feature.auth.SignInEvent
 import com.hana.monbee.ui.MonBeeTheme
 import com.hana.monbee.ui.Purple40
+import com.hana.monbee.ui.components.ErrorMsgDialog
 
 @Composable
 @OptIn(ExperimentalMaterial3Api::class)
@@ -141,14 +145,32 @@ fun CustomerListScreen(
                     }
 
                     state.error?.isNotEmpty() == true -> {
-                        Text(
-                            text = state.error.toString(),
-                            color = MaterialTheme.colorScheme.error,
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .align(Alignment.CenterHorizontally)
+                        ErrorMsgDialog(
+                            onDismissRequest = {
+                                events(CustomerListScreenEvent.Dismiss)
+                            },
+                            onConfirmation = {
+                                events(CustomerListScreenEvent.Dismiss)
+                            },
+                            dialogTitle = "Failed",
+                            dialogText = state.error.toString(),
+                            icon = Icons.Default.Warning,
                         )
                     }
+                    state.success?.isNotEmpty() == true -> {
+                        ErrorMsgDialog(
+                            onDismissRequest = {
+                                events(CustomerListScreenEvent.Dismiss)
+                            },
+                            onConfirmation = {
+                                events(CustomerListScreenEvent.Dismiss)
+                            },
+                            dialogTitle = "Success",
+                            dialogText = state.success.toString(),
+                            icon = Icons.Default.Done,
+                        )
+                    }
+
 
                     state.customers.isNotEmpty() -> {
                         LazyColumn(
@@ -188,10 +210,11 @@ fun CustomerListScreen(
     var userInput by remember { mutableStateOf("") }
     if (showAddNewCustomerDialog) {
         TextInputDialog(
+            id = state.customers.size + 1,
             title = "Add New Customer",
             onDismiss = { showAddNewCustomerDialog = false },
             onConfirm = {
-                userInput = it
+                events(CustomerListScreenEvent.SaveNewCustomer(it))
                 showAddNewCustomerDialog = false
             }
         )

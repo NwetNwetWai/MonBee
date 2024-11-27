@@ -23,20 +23,23 @@ class CustomerRepositoryImpl @Inject constructor(
 
     suspend fun syncData() {
         val customers = customerDao.getAll()
-        try {
-            val apiData = apiManagerInterface.service().fetchCustomerData()
+        val apiData =
+             apiManagerInterface.service().fetchCustomerData()
+
             if(customers.isEmpty()) {
                 apiData.forEach { customerDao.insertAll(it.toEntity()) }
             } else  {
                 apiData.forEach { customerDao.updateCustomers(it.toEntity()) }
             }
-        } catch (e: Exception) {
-            throw e
-        }
+
     }
 
     override suspend fun getCustomerList(): RepoResult<List<Customer>> {
-        syncData()
+        try {
+            syncData()
+        } catch (_: Exception) {
+            println("Exception")
+        }
         val customers = customerDao.getAll()
         return RepoResult.Success(customers.map { it.toDomain()})
     }
@@ -64,6 +67,18 @@ class CustomerRepositoryImpl @Inject constructor(
             Log.d("FileSave", "File saved successfully at: ${file.absolutePath}")
         } catch (e: Exception) {
             Log.e("FileSaveError", "Error saving file: ${e.message}", e)
+        }
+    }
+
+    override suspend fun saveNewCustomer(customer: Customer) : RepoResult<String> {
+        try {
+            println("CUSTOMER::TO:SAVE$customer")
+            customerDao.insertAll(customer.toEntity())
+            println("CUSTOMER::DB:: ${customerDao.getAll()}")
+            return RepoResult.Success("Saved.")
+        } catch (e: Exception) {
+            println("Error $e")
+            return RepoResult.Failure("Error")
         }
     }
 }

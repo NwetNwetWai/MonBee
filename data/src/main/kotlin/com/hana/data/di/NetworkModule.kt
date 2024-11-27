@@ -30,7 +30,7 @@ object NetworkModule {
         builder.addInterceptor(ChuckerInterceptor(context))
         builder.followRedirects(false)
         builder.followSslRedirects(false)
-        builder.callTimeout(2, TimeUnit.MINUTES)
+        builder.callTimeout(30, TimeUnit.SECONDS)
         return builder.build()
     }
     @Provides
