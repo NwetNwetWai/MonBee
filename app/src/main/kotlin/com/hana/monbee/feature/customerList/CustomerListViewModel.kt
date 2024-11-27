@@ -62,7 +62,7 @@ class CustomerListViewModel @Inject constructor (
         launchCatching {
          when(val result = saveNewCustomerUseCase.execute(newCustomer) ){
              is RepoResult.Failure -> {_states.update { it.copy(loading = false, error = result.error) }}
-             is RepoResult.Success -> {_states.update { it.copy(loading = false, success = result.data) }}
+             is RepoResult.Success -> {_states.update { it.copy(loading = false, success = "Saved", customers = result.data) }}
          }
         }
     }
