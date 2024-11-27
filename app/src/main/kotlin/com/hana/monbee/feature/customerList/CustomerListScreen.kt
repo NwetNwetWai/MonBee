@@ -16,11 +16,7 @@ import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Add
-import androidx.compose.material.icons.filled.ExitToApp
 import androidx.compose.material.icons.filled.MoreVert
-import androidx.compose.material.icons.filled.Share
-import androidx.compose.material3.AlertDialog
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.DropdownMenu
@@ -46,10 +42,10 @@ import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
-import androidx.compose.ui.window.Dialog
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.hana.domain.model.Customer
 import com.hana.monbee.R
+import com.hana.monbee.feature.addCustomer.TextInputDialog
 import com.hana.monbee.ui.MonBeeTheme
 import com.hana.monbee.ui.Purple40
 
@@ -97,20 +93,25 @@ fun CustomerListScreen(
                 actions = {
                     IconButton(onClick = {
                         isExpanded = true
-                        }
+                    }
                     ) {
                         Icon(Icons.Filled.MoreVert, null)
                     }
                     DropdownMenu(
                         expanded = isExpanded,
-                        onDismissRequest = { isExpanded = false}
+                        onDismissRequest = { isExpanded = false }
                     ) {
                         actionList.forEach { action ->
                             DropdownMenuItem(
-                                text = {Text(text = action)},
+                                text = { Text(text = action) },
                                 onClick = {
                                     isExpanded = false
-                                    events(CustomerListScreenEvent.GenerateJson(context,state.customers))
+                                    events(
+                                        CustomerListScreenEvent.GenerateJson(
+                                            context,
+                                            state.customers
+                                        )
+                                    )
                                 }
                             )
 
@@ -184,28 +185,18 @@ fun CustomerListScreen(
             }
         }
     }
+    var userInput by remember { mutableStateOf("") }
+    if (showAddNewCustomerDialog) {
+        TextInputDialog(
+            title = "Add New Customer",
+            onDismiss = { showAddNewCustomerDialog = false },
+            onConfirm = {
+                userInput = it
+                showAddNewCustomerDialog = false
+            }
+        )
+    }
 }
-//    if (showAddNewCustomerDialog) {
-//        Dialog(
-//            title = { Text("Added New Customer") },
-//            text = { Text("Please fill new customer information.") },
-//            dismissButton = {
-//                Button(onClick = { showAddNewCustomerDialog = false }) {
-//                    Text(text = "Cancel")
-//                }
-//            },
-//            confirmButton = {
-//                Button(onClick = {
-//                    events(CustomerListScreenEvent.AddNewCustomer())
-//                    showExitAppDialog = false
-//                }) {
-//                    Text(text = "Add")
-//                }
-//            },
-//            onDismissRequest = { showAddNewCustomerDialog = false }
-//        )
-//    }
-//}
 
 
 @Composable
@@ -236,7 +227,7 @@ fun CustomerItem(
                 .fillMaxWidth()
         ) {
             Text(
-                text = "Email:"+ customer.email.toString(),
+                text = "Email:" + customer.email.toString(),
                 modifier = Modifier.padding(start = 12.dp, end = 12.dp, bottom = 12.dp),
                 style = MaterialTheme.typography.bodyLarge
             )
