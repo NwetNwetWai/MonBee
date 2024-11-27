@@ -7,7 +7,7 @@ import com.hana.domain.util.RepoResult
 import javax.inject.Inject
 
 class SaveNewCustomerUseCase @Inject constructor(private val customerRepository: CustomerRepository) {
-    suspend fun execute(customer: Customer) : RepoResult<String>{
+    suspend fun execute(customer: Customer) : RepoResult<List<Customer>> {
        return customerRepository.saveNewCustomer(customer)
     }
 }
