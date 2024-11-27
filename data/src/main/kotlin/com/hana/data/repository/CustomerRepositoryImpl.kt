@@ -70,12 +70,12 @@ class CustomerRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun saveNewCustomer(customer: Customer) : RepoResult<String> {
+    override suspend fun saveNewCustomer(customer: Customer) : RepoResult<List<Customer>> {
         try {
             println("CUSTOMER::TO:SAVE$customer")
             customerDao.insertAll(customer.toEntity())
             println("CUSTOMER::DB:: ${customerDao.getAll()}")
-            return RepoResult.Success("Saved.")
+            return RepoResult.Success(customerDao.getAll().map { it.toDomain()})
         } catch (e: Exception) {
             println("Error $e")
             return RepoResult.Failure("Error")
