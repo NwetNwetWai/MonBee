@@ -26,11 +26,12 @@ object NetworkModule {
     ): OkHttpClient {
 
         val builder = OkHttpClient.Builder()
-        builder.addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
-        builder.addInterceptor(ChuckerInterceptor(context))
-        builder.followRedirects(false)
-        builder.followSslRedirects(false)
-        builder.callTimeout(30, TimeUnit.SECONDS)
+        .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
+        .addInterceptor(ChuckerInterceptor(context))
+            .connectTimeout(5, TimeUnit.SECONDS)
+            .writeTimeout(5, TimeUnit.SECONDS)
+            .readTimeout(5, TimeUnit.SECONDS)
+//        builder.callTimeout(30, TimeUnit.SECONDS)
         return builder.build()
     }
     @Provides
