@@ -22,5 +22,5 @@ To install MonBee, follow these steps:
 ![generateJson](https://github.com/user-attachments/assets/42d10fa6-9f13-4d8b-aca0-381b85a324b7)
 
 ## **Architecture**
-- Coming Soon..
+
 
