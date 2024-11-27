@@ -11,6 +11,7 @@ import com.hana.domain.repo.CustomerRepository
 import com.hana.domain.util.RepoResult
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.withContext
+import retrofit2.HttpException
 import java.io.BufferedWriter
 import java.io.File
 import java.io.FileWriter
@@ -23,14 +24,13 @@ class CustomerRepositoryImpl @Inject constructor(
 
     suspend fun syncData() {
         val customers = customerDao.getAll()
-        val apiData =
-             apiManagerInterface.service().fetchCustomerData()
+        val apiData = apiManagerInterface.service().fetchCustomerData()
 
-            if(customers.isEmpty()) {
-                apiData.forEach { customerDao.insertAll(it.toEntity()) }
-            } else  {
-                apiData.forEach { customerDao.updateCustomers(it.toEntity()) }
-            }
+        if (customers.isEmpty()) {
+            apiData.forEach { customerDao.insertAll(it.toEntity()) }
+        } else {
+            apiData.forEach { customerDao.updateCustomers(it.toEntity()) }
+        }
 
     }
 
@@ -41,7 +41,7 @@ class CustomerRepositoryImpl @Inject constructor(
             println("Exception")
         }
         val customers = customerDao.getAll()
-        return RepoResult.Success(customers.map { it.toDomain()})
+        return RepoResult.Success(customers.map { it.toDomain() })
     }
 
     override suspend fun getCustomerDetail(customerId: Int): RepoResult<Customer> {
@@ -70,15 +70,36 @@ class CustomerRepositoryImpl @Inject constructor(
         }
     }
 
-    override suspend fun saveNewCustomer(customer: Customer) : RepoResult<List<Customer>> {
+    override suspend fun saveNewCustomer(customer: Customer): RepoResult<List<Customer>> {
         try {
             println("CUSTOMER::TO:SAVE$customer")
             customerDao.insertAll(customer.toEntity())
-            println("CUSTOMER::DB:: ${customerDao.getAll()}")
-            return RepoResult.Success(customerDao.getAll().map { it.toDomain()})
+            val updatedCustomers = customerDao.getAll().map { it.toDomain() }
+//            updateCustomers(updatedCustomers)
+//            println("CUSTOMER::DB:: ${customerDao.getAll()}")
+            return RepoResult.Success(updatedCustomers)
         } catch (e: Exception) {
             println("Error $e")
             return RepoResult.Failure("Error")
+        }
+    }
+
+    override suspend fun uploadCustomer(): RepoResult<String> {
+        val updatedCustomers = customerDao.getAll().map { it.toDomain() }
+        println("UPDATED:::$updatedCustomers")
+        try {
+           updatedCustomers.forEach { customer ->
+               apiManagerInterface.service().postCustomerData(customer)
+           }
+
+//           val result = apiManagerInterface.service().postCustomerData(updatedCustomers)
+            return RepoResult.Success("Success")
+        } catch (e: Exception) {
+            println("ERROR:::${e.message}")
+            return when (e) {
+                is HttpException -> RepoResult.Failure(e.message.toString())
+                else -> RepoResult.Failure("Upload Fail")
+            }
         }
     }
 }
