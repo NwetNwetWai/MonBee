@@ -5,6 +5,7 @@ import com.hana.domain.model.Customer
 import com.hana.domain.usecase.GenerateJsonUseCase
 import com.hana.domain.usecase.GetCustomerListUseCase
 import com.hana.domain.usecase.SaveNewCustomerUseCase
+import com.hana.domain.usecase.UploadDataUseCase
 import com.hana.domain.util.RepoResult
 import com.hana.monbee.MonBeeViewModel
 import com.hana.monbee.navigation.CUSTOMER_DETAIL_SCREEN
@@ -26,13 +27,15 @@ sealed interface CustomerListScreenEvent {
     data class GenerateJson(val context: Context, val customers: List<Customer>) : CustomerListScreenEvent
     data class SaveNewCustomer(val newCustomer: Customer) : CustomerListScreenEvent
     data object Dismiss: CustomerListScreenEvent
+    data object UploadData: CustomerListScreenEvent
 }
 
 @HiltViewModel
 class CustomerListViewModel @Inject constructor (
     private val customerListUseCase: GetCustomerListUseCase,
     private val generateJsonUseCase: GenerateJsonUseCase,
-    private val saveNewCustomerUseCase: SaveNewCustomerUseCase
+    private val saveNewCustomerUseCase: SaveNewCustomerUseCase,
+    private val uploadDataUseCase: UploadDataUseCase
 ): MonBeeViewModel() {
     private val _states by lazy { MutableStateFlow(CustomerListScreenState()) }
     val states = _states.asStateFlow()
@@ -53,6 +56,20 @@ class CustomerListViewModel @Inject constructor (
 
         is CustomerListScreenEvent.SaveNewCustomer -> {
             saveNewCustomer(event.newCustomer)
+        }
+
+        CustomerListScreenEvent.UploadData -> {
+            uploadData()
+        }
+    }
+
+    private fun uploadData() {
+        _states.update { it.copy(loading = true) }
+        launchCatching {
+            when(val result = uploadDataUseCase.execute() ){
+                is RepoResult.Failure -> {_states.update { it.copy(loading = false, error = result.error) }}
+                is RepoResult.Success -> {_states.update { it.copy(loading = false, success = "Uploaded") }}
+            }
         }
     }
 

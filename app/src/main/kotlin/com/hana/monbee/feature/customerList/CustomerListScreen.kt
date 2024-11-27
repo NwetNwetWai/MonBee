@@ -31,6 +31,7 @@ import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Scaffold
 import androidx.compose.material3.Text
 import androidx.compose.material3.TopAppBar
+import androidx.compose.material3.TopAppBarDefaults
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.collectAsState
@@ -46,6 +47,7 @@ import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.hana.domain.model.Customer
+import com.hana.domain.util.Parameter
 import com.hana.monbee.R
 import com.hana.monbee.feature.addCustomer.TextInputDialog
 import com.hana.monbee.feature.auth.SignInEvent
@@ -68,7 +70,7 @@ fun CustomerListScreen(
 
     var showAddNewCustomerDialog by remember { mutableStateOf(false) }
     var isExpanded by remember { mutableStateOf(false) }
-    var actionList = listOf("generateJson")
+    val actionList = listOf(Parameter.GENERATE_JSON, Parameter.UPLOAD_DATA)
 
     LaunchedEffect(Unit) { viewModel.initialize(restartApp) }
 
@@ -94,6 +96,7 @@ fun CustomerListScreen(
         ) {
             TopAppBar(
                 title = { Text(stringResource(R.string.app_name)) },
+                colors = TopAppBarDefaults.topAppBarColors(containerColor = MaterialTheme.colorScheme.primaryContainer),
                 actions = {
                     IconButton(onClick = {
                         isExpanded = true
@@ -110,12 +113,24 @@ fun CustomerListScreen(
                                 text = { Text(text = action) },
                                 onClick = {
                                     isExpanded = false
-                                    events(
-                                        CustomerListScreenEvent.GenerateJson(
-                                            context,
-                                            state.customers
-                                        )
-                                    )
+                                    when (action) {
+                                        Parameter.GENERATE_JSON -> {
+                                            events(
+                                                CustomerListScreenEvent.GenerateJson(
+                                                    context,
+                                                    state.customers
+                                                )
+                                            )
+                                        }
+
+                                        Parameter.UPLOAD_DATA -> {
+                                            events(
+                                                CustomerListScreenEvent.UploadData
+                                            )
+                                        }
+
+                                    }
+
                                 }
                             )
 
@@ -157,6 +172,7 @@ fun CustomerListScreen(
                             icon = Icons.Default.Warning,
                         )
                     }
+
                     state.success?.isNotEmpty() == true -> {
                         ErrorMsgDialog(
                             onDismissRequest = {
@@ -207,7 +223,6 @@ fun CustomerListScreen(
             }
         }
     }
-    var userInput by remember { mutableStateOf("") }
     if (showAddNewCustomerDialog) {
         TextInputDialog(
             id = state.customers.size + 1,

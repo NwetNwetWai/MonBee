@@ -29,7 +29,7 @@ object NetworkModule {
         .addInterceptor(HttpLoggingInterceptor().setLevel(HttpLoggingInterceptor.Level.BODY))
         .addInterceptor(ChuckerInterceptor(context))
             .connectTimeout(5, TimeUnit.SECONDS)
-            .writeTimeout(5, TimeUnit.SECONDS)
+            .writeTimeout(10, TimeUnit.SECONDS)
             .readTimeout(5, TimeUnit.SECONDS)
 //        builder.callTimeout(30, TimeUnit.SECONDS)
         return builder.build()

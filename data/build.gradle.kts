@@ -8,6 +8,7 @@ plugins {
     alias(libs.plugins.room)
     alias(libs.plugins.hilt)
     alias(libs.plugins.gms)
+    alias(libs.plugins.serialization)
 }
 
 android {
@@ -49,6 +50,8 @@ dependencies {
     implementation(libs.room.runtime)
     ksp(libs.room.complier)
     implementation(libs.room.testing)
+
+    implementation(libs.kotlinx.serialization.json)
 
     //Dependency - hilt
     implementation(libs.hilt.android)

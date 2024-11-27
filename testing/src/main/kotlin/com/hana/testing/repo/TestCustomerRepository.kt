@@ -20,7 +20,16 @@ class TestCustomerRepository: CustomerRepository {
         return RepoResult.Success(customers[customerId])
     }
 
-    override fun generateJson(context: Context, customers: String) {
-
+    override suspend fun generateJson(context: Context, customers: String) {
+        
     }
+
+    override suspend fun saveNewCustomer(customer: Customer): RepoResult<List<Customer>> {
+        return RepoResult.Success(customers)
+    }
+
+    override suspend fun uploadCustomer(): RepoResult<String> {
+        return RepoResult.Success("Success")
+    }
+
 }
