@@ -2,8 +2,9 @@ package com.hana.domain.usecase
 
 import com.hana.domain.repo.UserRepository
 import com.hana.domain.util.RepoResult
+import javax.inject.Inject
 
-class SignInUseCase(private val userRepository: UserRepository) {
+class SignInUseCase @Inject constructor(private val userRepository: UserRepository) {
     suspend fun execute(email: String, password: String): RepoResult<String> {
         return when {
             email.isEmpty() -> RepoResult.Failure("Mail Address is required.")

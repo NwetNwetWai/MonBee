@@ -100,7 +100,7 @@ fun CustomerDetailScreen(
                         ) {
                         Text(
                             text = "Name: " + state.data.name.toString(),
-                            style = MaterialTheme.typography.titleSmall,
+                            style = MaterialTheme.typography.titleMedium,
                             modifier = Modifier.padding(12.dp)
                         )
 //                        Spacer(Modifier.padding(bottom = 12.dp))
