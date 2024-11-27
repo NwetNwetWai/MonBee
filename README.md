@@ -18,9 +18,9 @@ To install MonBee, follow these steps:
 
 ## **UI**
 ![authScreen](https://github.com/user-attachments/assets/811dfebe-1cba-4d87-9c42-e2005ab974bf)
-![AddNewCustomer](https://github.com/user-attachments/assets/a6f6f8c5-fba5-450a-9fe9-8cea900e5cd8)
 ![customerList](https://github.com/user-attachments/assets/7487ed66-766d-42e2-ab9b-86265044ce6e)
 ![customerDetails](https://github.com/user-attachments/assets/39095d6d-fa54-460d-88c8-21a7f9fa7425)
+![AddNewCustomer](https://github.com/user-attachments/assets/a6f6f8c5-fba5-450a-9fe9-8cea900e5cd8)
 ![actions](https://github.com/user-attachments/assets/f06b70c3-49ff-4eb0-9cda-742ce9b121df)
 
 ## **Architecture**
