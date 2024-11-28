@@ -13,6 +13,8 @@ Bee for Field Officer
  - The apps need internet access for signIn.
  - From Myanmar, The app requires a VPN connection only during the first run to fetch initial data from the server.
  Afterward, if the network is unavailable or VPN is unavailable, the app will retrieve data from the local database to ensure functionality.
+- Support Dark Mode/Light Mode.
+  
 
 ## **Installation**
 
@@ -32,3 +34,4 @@ To install MonBee, follow these steps:
 ## **Architecture**
 
 <img width="738" alt="MonBeeArchitecture" src="https://github.com/user-attachments/assets/5c82a93c-3f21-4950-90c1-b32157fbe802">
+
