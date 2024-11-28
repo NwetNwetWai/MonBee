@@ -7,6 +7,12 @@ Bee for Field Officer
 ## **Introduction**
 
  - Can check customer lists at MonBee
+ - Can add new customer
+ - Can generate Json file to /data/user/0/com.hana.monbee/app_data/
+ - Can upload Data to server.
+ - The apps need internet access for signIn.
+ - From Myanmar, The app requires a VPN connection only during the first run to fetch initial data from the server.
+ Afterward, if the network is unavailable or VPN is unavailable, the app will retrieve data from the local database to ensure functionality.
 
 ## **Installation**
 
